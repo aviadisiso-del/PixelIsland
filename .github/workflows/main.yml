@@ -20,9 +20,13 @@ jobs:
           gradle-version: 8.9
 
       - name: Build debug APK
-        run: gradle :app:assembleDebug --stacktrace
+        run: |
+          DIR=$(dirname "$(find . -name settings.gradle.kts | head -1)")
+          echo "Project folder: $DIR"
+          cd "$DIR"
+          gradle :app:assembleDebug --stacktrace
 
       - uses: actions/upload-artifact@v4
         with:
           name: PixelIsland-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: "**/app-debug.apk"
